@@ -1,3 +1,4 @@
+#!/usr/bin/python
 from argparse import ArgumentParser
 apt upgrade
 apt install barman
