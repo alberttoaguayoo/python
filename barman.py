@@ -13,7 +13,8 @@ def parseArguments():
 						help="External ip address.")
 	return parser.parse_known_args()
 
-
+args=parseArguments()
+print(args)
 '''
 * Postgres cluster name.
 * External ip
