@@ -1,7 +1,8 @@
 from argparse import ArgumentParser
+apt upgrade
 
 def parseArguments():
-	parser = argparse.ArgumentParser()
+	parser = ArgumentParser()
 	parser.add_argument("--client", "-c",
 						type=str,
 						help="Define client name.")
