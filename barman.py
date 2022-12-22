@@ -1,7 +1,8 @@
-#!/usr/bin/bash
+#!/usr/bin/env python3
+
+
 from argparse import ArgumentParser
-apt upgrade
-apt install barman
+
 def parseArguments():
 	parser = ArgumentParser()
 	parser.add_argument("--client", "-c",
