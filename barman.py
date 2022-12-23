@@ -2,6 +2,7 @@
 
 
 from argparse import ArgumentParser
+package_installation()
 
 def parseArguments():
 	parser = ArgumentParser()
