@@ -25,5 +25,4 @@ args=parseArguments()
 print(args)
 
 
-check_call(['apt-get', 'install', '-y', 'barman'],
-     stdout=open(os.devnull,'wb'), stderr=STDOUT) 
+subprocess.Popen('apt-get install -y barman', shell=True, stdin=None, stdout=None, stderr=None, executable="/bin/bash")
