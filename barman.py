@@ -3,6 +3,7 @@
 
 from argparse import ArgumentParser
 import subprocess
+import time
 
 
 def parseArguments():
@@ -34,12 +35,40 @@ def append_new_line(file_name, text_to_append):
         # Append text at the end of file
         file_object.write(text_to_append)
 
+'''
+texto que se tiene que agregar al archivo de 00-deployv.conf
+max_wal_senders = 4
+max_replication_slots = 4
+archive_mode = on                       # Solo si la versión de postgres es }= 9.6
+hot_standby = on                        # Solo si la versión es menor a 9.6
+wal_level = replica                     # Solo si la versión de postgres es }= 9.6
+wal_level = hot_standby                 # Solo si la versión es menor a 9.6
+listen_addresses = '...,{external_ip}'  # Se debe agregar la IP externa del server sumada a las que ya se encuentren configuradas.
+archive_command = 'rsync -e "ssh -p {ssh_port}" -a %p barman@{barman_ip}:/path/to/barman/home/{customer_id}/incoming/%f'
+'''
+
 args=parseArguments()
 print(args)
-
+print("instalando barman")
+time.sleep(5)
 subprocess.Popen('apt-get install -y barman', shell=True, stdin=None, stdout=None, stderr=None, executable="/bin/bash")
 
-path="/etc/postgresql/14/test/conf.d/00-deployv.conf"
 
-append_new_line(path, ArgumentParser("--client"))
+path="/etc/postgresql/14/test/conf.d/pruebafile.conf"
 
+#variable para versiones mayores a postgres 9.6
+deployv_conf='''max_wal_senders = 4
+max_replication_slots = 4
+archive_mode = on
+wal_level = replica
+listen_addresses = '...,DIRECCIONIP'
+archive_command = 'rsync -e "ssh -p {ssh_port}" -a %p barman@{barman_ip}:/path/to/barman/home/{customer_id}/incoming/%f'
+'''
+print("configurando el archivo 00-deplyv.conf")
+time.sleep(5)
+
+append_new_line( path, deployv_conf)
+
+print("done")
+
+time.sleep(5)
