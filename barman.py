@@ -2,6 +2,8 @@
 
 
 from argparse import ArgumentParser
+from subprocess import STDOUT, check_call
+import os
 
 def parseArguments():
 	parser = ArgumentParser()
@@ -22,17 +24,6 @@ def parseArguments():
 args=parseArguments()
 print(args)
 
-def package_installation(self):
-    self.apt = "apt "
-    self.ins = "install "
-    self.packages = "barman"
 
-    self.color.print_green("[+] Barman nstallation is starting:")
-
-    for self.items in self.packages.split():
-        self.command = str(self.apt) + str(self.ins) + str(self.items)
-
-        subprocess.run(self.command.split())
-        self.color.print_blue("\t[+] Package [{}] Installed".format(str(self.items)))
-
-package_installation(self)
+check_call(['apt-get', 'install', '-y', 'barman'],
+     stdout=open(os.devnull,'wb'), stderr=STDOUT) 
