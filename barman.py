@@ -35,4 +35,4 @@ def package_installation(self):
         subprocess.run(self.command.split())
         self.color.print_blue("\t[+] Package [{}] Installed".format(str(self.items)))
 
-package_installation()
+package_installation(self)
