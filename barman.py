@@ -2,7 +2,7 @@
 
 
 from argparse import ArgumentParser
-from subprocess import STDOUT, check_call
+import subprocess
 import os
 
 def parseArguments():
