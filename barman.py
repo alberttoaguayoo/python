@@ -64,11 +64,12 @@ wal_level = replica
 listen_addresses = '...,DIRECCIONIP'
 archive_command = 'rsync -e "ssh -p {ssh_port}" -a %p barman@{barman_ip}:/path/to/barman/home/{customer_id}/incoming/%f'
 '''
+
 print("configurando el archivo 00-deplyv.conf")
 time.sleep(5)
 
 append_new_line( path, deployv_conf)
 
-print("done")
+print("archivo configurado")
 
 time.sleep(5)
