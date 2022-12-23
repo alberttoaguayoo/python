@@ -3,7 +3,7 @@
 
 from argparse import ArgumentParser
 import subprocess
-import os
+
 
 def parseArguments():
 	parser = ArgumentParser()
