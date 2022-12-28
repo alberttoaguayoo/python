@@ -66,10 +66,17 @@ archive_command = 'rsync -e "ssh -p {ssh_port}" -a %p barman@{barman_ip}:/path/t
 '''
 
 print("configurando el archivo 00-deplyv.conf")
-time.sleep(5)
+time.sleep(3)
 
 append_new_line( path, deployv_conf)
 
 print("archivo configurado")
 
-time.sleep(5)
+time.sleep(3)
+
+pathpg= "/etc/postgresql/14/test/file.conf"
+
+pg_hba='''host all barman {barman_ip}/32 md5
+host replication streaming_barman {barman_ip}/32 md5'''
+
+append_new_line( pathpg, pg_hba)
