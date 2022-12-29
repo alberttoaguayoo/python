@@ -69,13 +69,12 @@ listen_addresses = '...,{external_ip}'
 archive_command = 'rsync -e "ssh -p {ssh_port}" -a %p barman@{barman_ip}:/path/to/barman/home/{customer_id}/incoming/%f'
 '''.format(external_ip=args.external, ssh_port=args.port, barman_ip=args.address, customer_id=args.client)
 
-
 print("configurando el archivo 00-deplyv.conf")
 time.sleep(3)
 
 append_new_line( args.route, deployv_conf)
 
-print("done")
+print("archivo configurado")
 
 time.sleep(3)
 
