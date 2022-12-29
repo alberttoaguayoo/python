@@ -29,7 +29,7 @@ def parseArguments():
 def append_new_line(file_name, text_to_append):
     """Append given text as a new line at the end of file"""
     # Open the file in append & read mode ('a+')
-    with open(file_name, "a+") as file_object:
+    with open(file_name,"/conf.d/00-deployv.conf" ,"a+") as file_object:
         # Move read cursor to the start of file.
         file_object.seek(0)
         # If file is not empty then append '\n'
@@ -49,6 +49,7 @@ wal_level = replica                     # Solo si la versión de postgres es }= 
 wal_level = hot_standby                 # Solo si la versión es menor a 9.6
 listen_addresses = '...,{external_ip}'  # Se debe agregar la IP externa del server sumada a las que ya se encuentren configuradas.
 archive_command = 'rsync -e "ssh -p {ssh_port}" -a %p barman@{barman_ip}:/path/to/barman/home/{customer_id}/incoming/%f'
+as
 '''
 
 args=parseArguments()
