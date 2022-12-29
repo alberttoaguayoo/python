@@ -29,7 +29,7 @@ def parseArguments():
 def append_new_line(file_name, text_to_append):
     """Append given text as a new line at the end of file"""
     # Open the file in append & read mode ('a+')
-    with open(file_name,"/conf.d/00-deployv.conf" ,"a+") as file_object:
+    with open(file_name,"a+") as file_object:
         # Move read cursor to the start of file.
         file_object.seek(0)
         # If file is not empty then append '\n'
@@ -38,19 +38,6 @@ def append_new_line(file_name, text_to_append):
             file_object.write("\n")
         # Append text at the end of file
         file_object.write(text_to_append)
-
-'''
-texto que se tiene que agregar al archivo de 00-deployv.conf
-max_wal_senders = 4
-max_replication_slots = 4
-archive_mode = on                       # Solo si la versión de postgres es }= 9.6
-hot_standby = on                        # Solo si la versión es menor a 9.6
-wal_level = replica                     # Solo si la versión de postgres es }= 9.6
-wal_level = hot_standby                 # Solo si la versión es menor a 9.6
-listen_addresses = '...,{external_ip}'  # Se debe agregar la IP externa del server sumada a las que ya se encuentren configuradas.
-archive_command = 'rsync -e "ssh -p {ssh_port}" -a %p barman@{barman_ip}:/path/to/barman/home/{customer_id}/incoming/%f'
-as
-'''
 
 args=parseArguments()
 
@@ -62,6 +49,7 @@ time.sleep(1)
 #CONFIGURACION DEL ARCHIVO 00-DEPLOYV.CONF
 
 #variable para versiones mayores a postgres 9.6
+path_deployv=args.route + "deployv.conf/00-deployv.conf"
 deployv_conf='''max_wal_senders = 4
 max_replication_slots = 4
 archive_mode = on
@@ -73,7 +61,7 @@ archive_command = 'rsync -e "ssh -p {ssh_port}" -a %p barman@{barman_ip}:/path/t
 print("configurando el archivo 00-deplyv.conf")
 time.sleep(3)
 
-append_new_line( args.route, deployv_conf)
+#append_new_line(path_deployv, deployv_conf)
 
 print("archivo configurado")
 
@@ -81,9 +69,12 @@ time.sleep(3)
 
 #CONFIGURACION DEL ARCHIVO PG_HBA.CONF
 
-pathpg= "/etc/postgresql/14/test/file.conf"
+path_postgres=args.route + "pg_hba.conf"
 
 pg_hba='''host all barman {barman_ip}/32 md5
-host replication streaming_barman {barman_ip}/32 md5'''
+host replication streaming_barman {barman_ip}/32 md5
+'''.format(barman_ip=args.address)
 
-append_new_line( pathpg, pg_hba)
+#append_new_line(path_postgres , pg_hba)
+
+print(deployv_conf, pg_hba)
