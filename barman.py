@@ -43,7 +43,7 @@ args=parseArguments()
 
 print("instalando barman")
 time.sleep(1)
-#subprocess.Popen('apt-get install -y barman', shell=True, stdin=None, stdout=None, stderr=None, executable="/bin/bash")
+subprocess.Popen('apt-get install -y barman', shell=True, stdin=None, stdout=None, stderr=None, executable="/bin/bash")
 
 
 #CONFIGURACION DEL ARCHIVO 00-DEPLOYV.CONF
@@ -61,7 +61,7 @@ archive_command = 'rsync -e "ssh -p {ssh_port}" -a %p barman@{barman_ip}:/path/t
 print("configurando el archivo 00-deplyv.conf")
 time.sleep(3)
 
-#append_new_line(path_deployv, deployv_conf)
+append_new_line(path_deployv, deployv_conf)
 
 print("archivo configurado")
 
@@ -75,6 +75,6 @@ pg_hba='''host all barman {barman_ip}/32 md5
 host replication streaming_barman {barman_ip}/32 md5
 '''.format(barman_ip=args.address)
 
-#append_new_line(path_postgres , pg_hba)
+append_new_line(path_postgres , pg_hba)
 
 print(deployv_conf, pg_hba)
