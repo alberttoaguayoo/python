@@ -49,6 +49,7 @@ wal_level = replica                     # Solo si la versión de postgres es }= 
 wal_level = hot_standby                 # Solo si la versión es menor a 9.6
 listen_addresses = '...,{external_ip}'  # Se debe agregar la IP externa del server sumada a las que ya se encuentren configuradas.
 archive_command = 'rsync -e "ssh -p {ssh_port}" -a %p barman@{barman_ip}:/path/to/barman/home/{customer_id}/incoming/%f'
+as
 '''
 
 args=parseArguments()
