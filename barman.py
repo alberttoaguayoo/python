@@ -26,11 +26,6 @@ def parseArguments():
 						help="cluster port.")
 	return parser.parse_args()
 
-
-
-
-
-
 def append_new_line(file_name, text_to_append):
     """Append given text as a new line at the end of file"""
     # Open the file in append & read mode ('a+')
@@ -65,8 +60,6 @@ time.sleep(1)
 
 #CONFIGURACION DEL ARCHIVO 00-DEPLOYV.CONF
 
-path="/etc/postgresql/14/test/conf.d/pruebafile.conf"
-
 #variable para versiones mayores a postgres 9.6
 deployv_conf='''max_wal_senders = 4
 max_replication_slots = 4
@@ -76,12 +69,11 @@ listen_addresses = '...,{external_ip}'
 archive_command = 'rsync -e "ssh -p {ssh_port}" -a %p barman@{barman_ip}:/path/to/barman/home/{customer_id}/incoming/%f'
 '''.format(external_ip=args.external, ssh_port=args.port, barman_ip=args.address, customer_id=args.client)
 
-print(deployv_conf)
 
 print("configurando el archivo 00-deplyv.conf")
 time.sleep(3)
 
-append_new_line( path, deployv_conf)
+append_new_line( args.route, deployv_conf)
 
 print("done")
 
