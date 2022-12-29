@@ -1,11 +1,9 @@
 #!/usr/bin/env python3
 
-
 from argparse import ArgumentParser
 import subprocess
 import time
 
-#pedir el path en vez del nombre del cliente
 
 def parseArguments():
 	parser = ArgumentParser()
@@ -45,7 +43,6 @@ print("instalando barman")
 time.sleep(1)
 subprocess.Popen('apt-get install -y barman', shell=True, stdin=None, stdout=None, stderr=None, executable="/bin/bash")
 
-
 #CONFIGURACION DEL ARCHIVO 00-DEPLOYV.CONF
 
 #variable para versiones mayores a postgres 9.6
@@ -77,4 +74,32 @@ host replication streaming_barman {barman_ip}/32 md5
 
 append_new_line(path_postgres , pg_hba)
 
-print(deployv_conf, pg_hba)
+#Agregando reglas de firewall
+subprocess.run("ufw allow from {barman_ip} to any port {cluster_port}".format(barman_ip=args.address , cluster_port=args.port))
+
+subprocess.run(" sudo iptables -I INPUT 1 -p tcp --dport {cluster_port} -i eth0 ! -s {barman_ip} -j DROP".format(cluster_port=args.port , barman_ip=args.external))
+
+# creando los usuarios Barman
+
+subprocess.run('''sudo su postgres 
+	psql -p {cluster_port}
+	create user barman with superuser password 'barman_password';
+ 	create user streaming_barman with REPLICATION password 'streaming_password';
+'''.format(cluster_port=args.port))
+
+#Creando archivo de configuracion Barman
+
+path_barman="/etc/barman.d/" + args.client
+
+barman_conf='''
+[{customer_id}]
+description =  "A brief description"
+conninfo = host={postgres_ip} user=barman dbname=postgres port={cluster_port} password=barman_password
+backup_method = postgres
+streaming_conninfo = host={postgres_ip} user=streaming_barman dbname=postgres port={cluster_port} password=streaming_password
+streaming_archiver = on
+slot_name = barman_{customer_id}
+archiver=on
+'''.format(customer_id=args.client , postgres_ip=args.external , cluster_port=args.port)
+
+append_new_line(path_barman , barman_conf)
