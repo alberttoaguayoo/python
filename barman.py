@@ -78,7 +78,7 @@ append_new_line(path_postgres , pg_hba)
 
 subprocess.Popen('ufw allow from {barman_ip} to any port {cluster_port}'.format(barman_ip=args.address , cluster_port=args.port) , shell=True, stdin=None, stdout=None, stderr=None, executable="/bin/bash")
 
-subprocess.Popen('sudo iptables -I INPUT 1 -p tcp --dport {cluster_port} -i eth0 ! -s {barman_ip} -j DROP'.format(cluster_port=args.port , barman_ip=args.external, shell=True, stdin=None, stdout=None, stderr=None, executable="/bin/bash"))
+subprocess.Popen('sudo iptables -I INPUT 1 -p tcp --dport {cluster_port} -i eth0 ! -s {barman_ip} -j DROP'.format(cluster_port=args.port , barman_ip=args.external), shell=True, stdin=None, stdout=None, stderr=None, executable="/bin/bash")
 
 print("reglas de firewall agregadas")
 time.sleep(2)
