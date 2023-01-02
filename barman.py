@@ -92,7 +92,7 @@ subprocess.Popen('''sudo su postgres
 	psql -p {cluster_port}
 	create user barman with superuser password 'barman_password';
  	create user streaming_barman with REPLICATION password 'streaming_password';
-'''.format(cluster_port=args.port), cluster_port=args.port) , shell=True, stdin=None, stdout=None, stderr=None, executable="/bin/bash")
+'''.format(cluster_port=args.port) , shell=True, stdin=None, stdout=None, stderr=None, executable="/bin/bash")
 
 
 #Creando archivo de configuracion Barman
