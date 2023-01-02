@@ -98,7 +98,8 @@ subprocess.Popen('''sudo su postgres
 #Creando archivo de configuracion Barman
 
 subprocess.Popen('mkdir /etc/barman.d/', shell=True, stdin=None, stdout=None, stderr=None, executable="/bin/bash")
-subprocess.Popen('touch /etc/barman.d/{customer_id}.conf'.format(customer_id=args.client))
+subprocess.Popen('touch /etc/barman.d/{customer_id}.conf'.format(customer_id=args.client), shell=True, stdin=None, stdout=None, stderr=None, executable="/bin/bash")
+
 	
 path_barman="/etc/barman.d/" + args.client + ".conf"
 
@@ -114,3 +115,6 @@ archiver=on
 '''.format(customer_id=args.client , postgres_ip=args.external , cluster_port=args.port)
 
 append_new_line(path_barman , barman_conf)
+
+time.sleep(2)
+print("Configuracion exitosa")
