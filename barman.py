@@ -56,7 +56,7 @@ archive_command = 'rsync -e "ssh -p {ssh_port}" -a %p barman@{barman_ip}:/path/t
 '''.format(external_ip=args.external, ssh_port=args.port, barman_ip=args.address, customer_id=args.client)
 
 print("configurando el archivo 00-deplyv.conf")
-time.sleep(3)
+time.sleep(2)
 
 append_new_line(path_deployv, deployv_conf)
 
@@ -75,19 +75,24 @@ host replication streaming_barman {barman_ip}/32 md5
 append_new_line(path_postgres , pg_hba)
 
 #Agregando reglas de firewall
-allow= "ufw allow from {barman_ip} to any port {cluster_port}".format(barman_ip=args.address , cluster_port=args.port)
-subprocess.run(allow)
-iptables= " sudo iptables -I INPUT 1 -p tcp --dport {cluster_port} -i eth0 ! -s {barman_ip} -j DROP".format(cluster_port=args.port , barman_ip=args.external)
-subprocess.run(iptables)
+
+subprocess.Popen('ufw allow from {barman_ip} to any port {cluster_port}'.format(barman_ip=args.address , cluster_port=args.port) , shell=True, stdin=None, stdout=None, stderr=None, executable="/bin/bash")
+
+subprocess.Popen('sudo iptables -I INPUT 1 -p tcp --dport {cluster_port} -i eth0 ! -s {barman_ip} -j DROP'.format(cluster_port=args.port , barman_ip=args.external, shell=True, stdin=None, stdout=None, stderr=None, executable="/bin/bash")
+
+print("reglas de firewall agregadas")
+time.sleep(2)
 
 # creando los usuarios Barman
-postgres='''sudo su postgres 
+print("crear usuarios postgres")
+time.sleep(2)
+
+subprocess.Popen('''sudo su postgres 
 	psql -p {cluster_port}
 	create user barman with superuser password 'barman_password';
  	create user streaming_barman with REPLICATION password 'streaming_password';
-'''.format(cluster_port=args.port)
+'''.format(cluster_port=args.port), cluster_port=args.port) , shell=True, stdin=None, stdout=None, stderr=None, executable="/bin/bash")
 
-subprocess.run(postgres)
 
 #Creando archivo de configuracion Barman
 	
