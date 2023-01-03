@@ -9,9 +9,10 @@
  ###### psql -c "create user streaming_barman with REPLICATION password '{streaming_password}';"
 
 ## Requirements 
-
+```
  -c Client name.
  -r Absolute postgres path.
  -e External IP.
  -a Barman Address.
  -p Postgres port.
+```
