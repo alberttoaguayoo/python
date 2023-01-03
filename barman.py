@@ -1,9 +1,9 @@
 #!/usr/bin/env python3
 
-import keyboard
 from argparse import ArgumentParser
 import subprocess
 import time
+import sys
 
 
 def parseArguments():
@@ -85,15 +85,13 @@ subprocess.Popen('sudo iptables -I INPUT 1 -p tcp --dport {cluster_port} -i eth0
 print("reglas de firewall agregadas")
 time.sleep(2)
 
-# creando los usuarios Barman
+'''# creando los usuarios Barman
 
 print("crear usuarios postgres")
 time.sleep(2)
-subprocess.Popen('su - postgres', shell=True, stdin=None, stdout=None, stderr=None, executable="/bin/bash") 
-subprocess.Popen('psql -p {cluster_port}'.format(cluster_port=args.port) , shell=True, stdin=None, stdout=None, stderr=None, executable="/bin/bash")
 subprocess.Popen("create user barman with superuser password 'barman_password';\n", shell=True, stdin=None, stdout=None, stderr=None, executable="/bin/bash")
 subprocess.Popen("create user streaming_barman with REPLICATION password 'streaming_password';\n", shell=True, stdin=None, stdout=None, stderr=None, executable="/bin/bash")
-print("Usuarios creados")
+print("Usuarios creados")'''
 
 #Creando archivo de configuracion Barman
 
@@ -118,3 +116,10 @@ append_new_line(path_barman , barman_conf)
 
 time.sleep(2)
 print("Configuracion exitosa")
+
+#subprocess.Popen(''' barman receive-wal --create-slot {customer_id}
+#barman switch-xlog --force {customer_id}
+#barman switch-xlog --force --archive {customer_id}
+#barman backup {customer_id}'''.format(customer_id=args.client), shell=True, stdin=None, stdout=None, stderr=None, executable="/bin/bash")
+
+sys.exit()
