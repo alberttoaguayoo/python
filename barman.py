@@ -1,5 +1,6 @@
 #!/usr/bin/env python3
 
+import keyboard
 from argparse import ArgumentParser
 import subprocess
 import time
@@ -39,6 +40,20 @@ def append_new_line(file_name, text_to_append):
 
 args=parseArguments()
 
+def create_users():
+	print("crear usuarios postgres")
+	time.sleep(2)
+	subprocess.Popen('su - postgres', shell=True, stdin=None, stdout=None, stderr=None, executable="/bin/bash") 
+	subprocess.Popen('psql -p {cluster_port}'.format(cluster_port=args.port) , shell=True, stdin=None, stdout=None, stderr=None, executable="/bin/bash")
+	subprocess.Popen("create user barman with superuser password 'barman_password';", shell=True, stdin=None, stdout=None, stderr=None, executable="/bin/bash")
+ 	time.sleep(1)
+ 	keyboard.press_and_release('enter')
+ 	subprocess.Popen("create user streaming_barman with REPLICATION password 'streaming_password';", shell=True, stdin=None, stdout=None, stderr=None, executable="/bin/bash")
+ 	time.sleep(1)
+ 	keyboard.press_and_release('enter')
+ 	print("Usuarios creados")
+
+#Instalacion de barman
 print("instalando barman")
 time.sleep(1)
 subprocess.Popen('apt-get install -y barman', shell=True, stdin=None, stdout=None, stderr=None, executable="/bin/bash")
@@ -84,16 +99,7 @@ print("reglas de firewall agregadas")
 time.sleep(2)
 
 # creando los usuarios Barman
-
-print("crear usuarios postgres")
-time.sleep(2)
-
-subprocess.Popen('''sudo su postgres 
-	psql -p {cluster_port}
-	create user barman with superuser password 'barman_password';
- 	create user streaming_barman with REPLICATION password 'streaming_password';
-'''.format(cluster_port=args.port) , shell=True, stdin=None, stdout=None, stderr=None, executable="/bin/bash")
-
+create_users()
 
 #Creando archivo de configuracion Barman
 
