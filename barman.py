@@ -85,13 +85,13 @@ subprocess.Popen('sudo iptables -I INPUT 1 -p tcp --dport {cluster_port} -i eth0
 print("reglas de firewall agregadas")
 time.sleep(2)
 
-'''# creando los usuarios Barman
+# creando los usuarios Barman
 
 print("crear usuarios postgres")
 time.sleep(2)
-subprocess.Popen("create user barman with superuser password 'barman_password';\n", shell=True, stdin=None, stdout=None, stderr=None, executable="/bin/bash")
-subprocess.Popen("create user streaming_barman with REPLICATION password 'streaming_password';\n", shell=True, stdin=None, stdout=None, stderr=None, executable="/bin/bash")
-print("Usuarios creados")'''
+subprocess.Popen("create user barman with superuser password \'barman_password\';", shell=True, stdin=None, stdout=None, stderr=None, executable="/bin/bash")
+subprocess.Popen("create user streaming_barman with REPLICATION password \'streaming_password\';", shell=True, stdin=None, stdout=None, stderr=None, executable="/bin/bash")
+print("Usuarios creados")
 
 #Creando archivo de configuracion Barman
 
