@@ -13,7 +13,7 @@ def parseArguments():
 						help="Define client name")
 	parser.add_argument("--route", "-r",
 						type=str,
-						help="Define route.")
+						help="Define absolute path")
 	parser.add_argument("--external", "-e",
 						type=str,
 						help="External ip address.")
@@ -92,8 +92,8 @@ time.sleep(2)
 
 print("crear usuarios postgres")
 time.sleep(2)
-subprocess.Popen("create user barman with superuser password \'barman_password\';", shell=True, stdin=None, stdout=None, stderr=None, executable="/bin/bash")
-subprocess.Popen("create user streaming_barman with REPLICATION password \'streaming_password\';", shell=True, stdin=None, stdout=None, stderr=None, executable="/bin/bash")
+subprocess.Popen("psql -c \"create user barman with superuser password \'barman_password\';\"", shell=True, stdin=None, stdout=None, stderr=None, executable="/bin/bash")
+subprocess.Popen("psql -c \"create user streaming_barman with REPLICATION password \'streaming_password\'\";", shell=True, stdin=None, stdout=None, stderr=None, executable="/bin/bash")
 print("Usuarios creados")
 
 #Creando archivo de configuracion Barman
