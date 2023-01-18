@@ -47,6 +47,9 @@ subprocess.Popen('apt-get install -y barman', shell=True, stdin=None, stdout=Non
 
 #CONFIGURACION DEL ARCHIVO 00-DEPLOYV.CONF
 
+subprocess.Popen('mkdir {route}/conf.d'.format(route=args.route) , shell=True, stdin=None, stdout=None, stderr=None, executable="/bin/bash")
+
+
 #variable para versiones mayores a postgres 9.6
 path_deployv=args.route + "conf.d/00-deployv.conf"
 deployv_conf='''max_wal_senders = 4
